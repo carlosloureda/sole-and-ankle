@@ -24,17 +24,28 @@ const ShoeCard = ({
   // on-sale. In theory, it is possible for a shoe to be
   // both on-sale and new-release, but in this case, `on-sale`
   // will triumph and be the variant used.
-  // prettier-ignore
-  const variant = typeof salePrice === 'number'
-    ? 'on-sale'
-    : isNewShoe(releaseDate)
-      ? 'new-release'
-      : 'default'
+  const variant =
+    typeof salePrice === "number"
+      ? "on-sale"
+      : isNewShoe(releaseDate)
+      ? "new-release"
+      : "default";
 
+  const prettyVariant =
+    typeof salePrice === "number"
+      ? "Sale"
+      : isNewShoe(releaseDate)
+      ? "Just Released!"
+      : "";
+
+  console.log("salePrice: ", salePrice);
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
+          {prettyVariant && (
+            <SalePrice variant={variant}>{prettyVariant}</SalePrice>
+          )}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
@@ -87,7 +98,14 @@ const ColorInfo = styled.p`
 
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
-  color: ${COLORS.primary};
+  color: ${COLORS.white};
+  padding: 0.25rem 0.75rem;
+  background-color: ${(props) =>
+    props.variant === "new-release" ? COLORS.secondary : COLORS.primary};
+  position: absolute;
+  right: -5px;
+  top: 12px;
+  font-size: 0.875rem;
 `;
 
 export default ShoeCard;
