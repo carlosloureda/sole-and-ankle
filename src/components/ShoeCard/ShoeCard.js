@@ -37,23 +37,33 @@ const ShoeCard = ({
       : isNewShoe(releaseDate)
       ? "Just Released!"
       : "";
-
+  console.log("variant", variant);
+  console.log("prettyVariant", prettyVariant);
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
-          {prettyVariant && (
-            <SalePrice variant={variant}>{prettyVariant}</SalePrice>
-          )}
+          {prettyVariant && <Flag variant={variant}>{prettyVariant}</Flag>}
           <Image alt="" src={imageSrc} />
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price
+            style={{
+              "--color": variant === "on-sale" ? COLORS.gray[700] : undefined,
+              "--text-decoration":
+                variant === "on-sale" ? "line-through" : undefined,
+            }}
+          >
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" && (
+            <SalePrice variant={variant}>{formatPrice(salePrice)}</SalePrice>
+          )}
         </Row>
       </Wrapper>
     </Link>
@@ -91,7 +101,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  color: var(--color);
+  text-decoration: var(--text-decoration);
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
@@ -99,6 +112,11 @@ const ColorInfo = styled.p`
 
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
+  color: ${COLORS.primary};
+`;
+
+const Flag = styled.span`
+  font-weight: ${WEIGHTS.bold};
   color: ${COLORS.white};
   padding: 0.25rem 0.75rem;
   background-color: ${(props) =>
@@ -106,7 +124,12 @@ const SalePrice = styled.span`
   position: absolute;
   right: -5px;
   top: 12px;
-  font-size: 0.875rem;
+  font-size: ${14 / 18} rem;
 `;
+
+// We could do composition from Styled Components:
+
+// const SaleFlag = styled(Flag)``
+// const NewFlag = styled(Flag)``
 
 export default ShoeCard;
