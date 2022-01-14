@@ -38,7 +38,6 @@ const ShoeCard = ({
       ? "Just Released!"
       : "";
 
-  console.log("salePrice: ", salePrice);
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
@@ -64,10 +63,12 @@ const ShoeCard = ({
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
+  flex: 1;
 `;
 
 const Wrapper = styled.article`
-  width: 344px;
+  min-width: 344px;
+  flex: 1;
 `;
 
 const ImageWrapper = styled.div`
