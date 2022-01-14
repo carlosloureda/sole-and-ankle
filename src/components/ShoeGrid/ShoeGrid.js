@@ -7,6 +7,7 @@ import ShoeCard from "../ShoeCard";
 const ShoeGrid = () => {
   return (
     <Wrapper>
+      {/* We could add here a ShoeWrapper to adjust the widht so it is not dependant on the item for later reuse  */}
       {SHOES.map((shoe) => (
         <ShoeCard key={shoe.slug} {...shoe} />
       ))}
